@@ -12,12 +12,18 @@ var score = 0;
 
 function moveBasket(event) {
     let basketLeft = basket.offsetLeft;
-    if((event.key == 'a' || event.key == 'ArrowLeft') && basketLeft > 0){
+    if((event.key == 'a' || event.key == 'ArrowLeft')){
         basket.style.left = basketLeft - speedBasket + 'px';
+        if(basketLeft <= 0){
+            basket.style.left = stage.clientWidth + 'px';
+        }
     }
     else {
-        if((event.key == 'd' || event.key == 'ArrowRight') && basketLeft < (stage.clientWidth - basket.clientWidth)){
+        if((event.key == 'd' || event.key == 'ArrowRight')){
             basket.style.left = basketLeft + speedBasket + 'px';
+            if((basketLeft + basket.clientWidth) >= stage.clientWidth){
+                basket.style.left = 0 - basket.clientWidth + 'px';
+            }
         }
     }
 }
@@ -28,7 +34,6 @@ function dropBall(){
     let ballTop = ball.offsetTop;
     let ballLeft = ball.offsetLeft;
     if(ballTop + ball.clientHeight >= stage.clientHeight){
-        console.log(ballLeft, basket.offsetLeft);
         if(ballLeft > basket.offsetLeft && ballLeft < (basket.offsetLeft + basket.clientWidth)){
             score++;
             scoreTab.innerText = score;
